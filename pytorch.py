@@ -399,3 +399,76 @@ print(x[[0, 2], [0, 2]])
 
 # Boolean indexing
 print(x[x > 5])
+
+
+
+
+# Pytorch and Numpy
+# Numpy array to tensor
+numpy_array = np.array([1, 2, 3])
+torch_tensor = torch.from_numpy(numpy_array)
+print(torch_tensor)
+
+# Tensor to numpy array
+torch_tensor = torch.tensor([1, 2, 3])
+numpy_array = torch_tensor.numpy()
+print(numpy_array)
+
+
+
+
+# Reproducibility
+
+# create 2 random tensors
+
+# check for equality between the 2 random tensors
+random_tensor_A = torch.rand(3, 4)
+random_tensor_B = torch.rand(3, 4)
+
+print(f"Tensor A:\n{random_tensor_A}")
+print(f"Tensor B:\n{random_tensor_B}")
+print(f"Are they equal? {random_tensor_A == random_tensor_B}")
+
+# Let's make some reproducible random tensors
+RANDOM_SEED = 42
+torch.manual_seed(RANDOM_SEED)
+random_tensor_C = torch.rand(3, 4)
+
+torch.manual_seed(RANDOM_SEED)
+random_tensor_D = torch.rand(3, 4)
+
+print(f"\nTensor C:\n{random_tensor_C}")
+print(f"Tensor D:\n{random_tensor_D}")
+print(f"Are they equal? {random_tensor_C == random_tensor_D}")
+
+
+
+# Running tensors and pytorch on GPU/CPU
+# Check for GPU availability
+print(f"\nGPU available: {torch.cuda.is_available()}")
+
+# Set device to GPU if available, otherwise CPU
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using device: {device}")
+
+# You can also be more explicit
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    print(f"GPU Name: {torch.cuda.get_device_name(0)}")
+else:
+    device = torch.device("cpu")
+    print("No GPU available, using CPU")
+
+# Create a tensor and put it on the device
+tensor_on_device = torch.tensor([1, 2, 3], device=device)
+print(f"\nTensor device: {tensor_on_device.device}")
+
+# Alternative: Create tensor and move it to device
+tensor_cpu = torch.tensor([4, 5, 6])
+tensor_moved = tensor_cpu.to(device)
+print(f"Original tensor device: {tensor_cpu.device}")
+print(f"Moved tensor device: {tensor_moved.device}")
+
+# For reproducibility on CPU, you can also set:
+# This ensures deterministic behavior for CPU operations
+torch.use_deterministic_algorithms(True, warn_only=True)
