@@ -219,7 +219,7 @@ print(torch.max(x))
 
 # find the mean value
 print(torch.mean(x.type(torch.float32)))
-print(x.mean())
+print(x.type(torch.float32).mean())
 
 # find the sum value
 print(torch.sum(x))
@@ -230,3 +230,172 @@ print(torch.argmin(x))
 # find the index of the maximum value
 print(torch.argmax(x))
 
+
+
+# Tensor Reshaping, stacking, squeezing, unsqueezing, permute
+# define all the above terms
+# Reshaping: Changing the shape of a tensor without changing its data
+# Stacking: Combining multiple tensors into a single tensor
+# Squeezing: Removing dimensions of size 1 from a tensor
+# Unsqueezing: Adding dimensions of size 1 to a tensor
+# Permute: Rearranging the dimensions of a tensor
+
+# Create a tensor
+x = torch.arange(1, 100, 10)
+print(x)
+print(x.shape)
+# Reshape the tensor
+x = x.reshape(10, 1)
+print(x)
+
+x = x.reshape(1, 10)
+print(x)
+
+# Reshape the tensor
+x = x.reshape(10, 1)
+print(x)
+
+# Reshape the tensor
+x = x.reshape(5, 2)
+print(x)
+
+# Reshape the tensor
+x = x.reshape(2, 5)
+print(x)
+
+
+# change the shape of the tensor
+x = x.view(1, 10)
+print(x)
+
+# change the shape of the tensor
+x = x.view(10, 1)
+print(x)
+
+
+#  Stacking
+# Stacking combines multiple tensors along a new dimension
+
+# Create multiple tensors
+x = torch.arange(1, 11)
+y = torch.arange(11, 21)
+z = torch.arange(21, 31)
+
+print("Original tensors:")
+print(f"x: {x}")
+print(f"y: {y}")
+print(f"z: {z}")
+
+# Stack tensors along dimension 0 (creates new dimension)
+stacked = torch.stack([x, y, z], dim=0)
+print(f"\nStacked along dim=0:\n{stacked}")
+print(f"Shape: {stacked.shape}")
+
+# Stack tensors along dimension 1
+stacked_dim1 = torch.stack([x, y, z], dim=1)
+print(f"\nStacked along dim=1:\n{stacked_dim1}")
+print(f"Shape: {stacked_dim1.shape}")
+
+# vstack (vertical stack) - stacks tensors in sequence vertically (row-wise)
+vstacked = torch.vstack([x, y, z])
+print(f"\nvstack:\n{vstacked}")
+print(f"Shape: {vstacked.shape}")
+
+# hstack (horizontal stack) - stacks tensors in sequence horizontally (column-wise)
+hstacked = torch.hstack([x, y, z])
+print(f"\nhstack:\n{hstacked}")
+print(f"Shape: {hstacked.shape}")
+
+
+# Squeezing
+
+# Create a tensor with a dimension of size 1
+x = torch.zeros(2, 1, 2, 1, 2)
+print(f"Original tensor shape: {x.shape}")
+
+# Squeeze the tensor (removes all dimensions of size 1)
+x_squeezed = x.squeeze()
+print(f"Squeezed tensor shape: {x_squeezed.shape}")
+
+# Squeeze a specific dimension
+x_squeezed_dim1 = x.squeeze(dim=1)
+print(f"Squeezed at dim 1 shape: {x_squeezed_dim1.shape}")
+
+
+# Unsqueeze
+# Unsqueeze adds a dimension of size 1 at a specified position
+
+# Create a 1D tensor
+y = torch.arange(1, 11)
+print(f"\nOriginal tensor: {y}")
+print(f"Original shape: {y.shape}")
+
+# Unsqueeze at dimension 0 (adds dimension at the beginning)
+y_unsqueezed_dim0 = y.unsqueeze(dim=0)
+print(f"\nUnsqueezed at dim 0: {y_unsqueezed_dim0}")
+print(f"Shape: {y_unsqueezed_dim0.shape}")
+
+# Unsqueeze at dimension 1 (adds dimension at the end)
+y_unsqueezed_dim1 = y.unsqueeze(dim=1)
+print(f"\nUnsqueezed at dim 1:\n{y_unsqueezed_dim1}")
+print(f"Shape: {y_unsqueezed_dim1.shape}")
+
+# Create a 2D tensor and unsqueeze
+z = torch.arange(1, 7).reshape(2, 3)
+print(f"\n2D tensor:\n{z}")
+print(f"Shape: {z.shape}")
+
+# Unsqueeze at different dimensions
+z_unsqueezed_dim0 = z.unsqueeze(dim=0)
+print(f"\nUnsqueezed at dim 0 shape: {z_unsqueezed_dim0.shape}")
+
+z_unsqueezed_dim1 = z.unsqueeze(dim=1)
+print(f"Unsqueezed at dim 1 shape: {z_unsqueezed_dim1.shape}")
+
+z_unsqueezed_dim2 = z.unsqueeze(dim=2)
+print(f"Unsqueezed at dim 2 shape: {z_unsqueezed_dim2.shape}")
+
+
+# Permute
+# Permute rearranges the dimensions of a tensor
+
+# Create a 3D tensor (batch_size, height, width)
+image_tensor = torch.randn(64, 92, 32)
+print(f"Original tensor shape: {image_tensor.shape}")
+
+# Permute dimensions (swap height and width)
+permuted_tensor = image_tensor.permute(0, 2, 1)
+print(f"Permuted tensor shape: {permuted_tensor.shape}")
+
+# Permute to (height, width, batch_size)
+permuted_tensor2 = image_tensor.permute(1, 2, 0)
+print(f"Permuted tensor shape: {permuted_tensor2.shape}")
+
+# Permute with negative indices
+permuted_tensor3 = image_tensor.permute(-1, 0, -2)
+print(f"Permuted tensor shape: {permuted_tensor3.shape}")
+
+# Example: Transpose (special case of permute for 2D tensors)
+two_d_tensor = torch.randn(3, 4)
+print(f"\n2D tensor shape: {two_d_tensor.shape}")
+transposed_tensor = two_d_tensor.transpose(0, 1)
+print(f"Transposed tensor shape: {transposed_tensor.shape}")
+
+
+# Indexing and selecting data in PyTorch
+
+# Create a tensor
+x = torch.arange(1, 10).reshape(3, 3)
+print(x)
+
+# Indexing
+print(x[1, 1])
+
+# Slicing
+print(x[1, :])
+
+# Advanced indexing
+print(x[[0, 2], [0, 2]])
+
+# Boolean indexing
+print(x[x > 5])
