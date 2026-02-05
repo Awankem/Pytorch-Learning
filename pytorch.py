@@ -206,3 +206,27 @@ print(f"Shape of resulting tensor: {torch.matmul(tensor_A, tensor_B.T).shape}")
 
 
 # Tensor Aggregation
+
+# create a tensor
+x = torch.arange(1, 100, 10)
+print(x)
+
+# find the minimum value
+print(torch.min(x))
+
+# find the maximum value
+print(torch.max(x))
+
+# find the mean value
+print(torch.mean(x.type(torch.float32)))
+print(x.mean())
+
+# find the sum value
+print(torch.sum(x))
+
+# find the index of the minimum value
+print(torch.argmin(x))
+
+# find the index of the maximum value
+print(torch.argmax(x))
+
