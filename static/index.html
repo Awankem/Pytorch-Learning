@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyTorch Model Interface | Linear Regression</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header class="hero">
+            <h1>PyTorch <span>Predictor</span></h1>
+            <p>Experience the power of Linear Regression through a modern web interface.</p>
+        </header>
+
+        <section class="grid-layout">
+            <!-- Prediction Card -->
+            <div class="card glass prediction-card">
+                <h2>Make a Prediction</h2>
+                <div class="form-group">
+                    <label for="x-input">Input Value (X)</label>
+                    <input type="number" id="x-input" step="0.01" placeholder="e.g. 0.85" value="0.85">
+                </div>
+                <button id="predict-btn" class="btn-primary">Predict Result</button>
+                
+                <div class="result-display" id="result-container">
+                    <span class="label">Predicted Output (Y):</span>
+                    <span class="value" id="y-result">--</span>
+                </div>
+            </div>
+
+            <!-- Visualization Card -->
+            <div class="card glass chart-card">
+                <h2>Data Visualization</h2>
+                <div class="chart-container">
+                    <canvas id="predictionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Model Info Card -->
+            <div class="card glass info-card">
+                <h2>Model Configuration</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Current Weight</span>
+                        <span class="info-value" id="model-weight">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Current Bias</span>
+                        <span class="info-value" id="model-bias">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Optimizer</span>
+                        <span class="info-value">SGD</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Loss Function</span>
+                        <span class="info-value">MAE (L1Loss)</span>
+                    </div>
+                </div>
+                <div class="formula">
+                    y = <span id="formula-weight">w</span> * x + <span id="formula-bias">b</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="static/script.js"></script>
+</body>
+</html>

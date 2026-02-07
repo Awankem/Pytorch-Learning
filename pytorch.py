@@ -472,3 +472,13 @@ print(f"Moved tensor device: {tensor_moved.device}")
 # For reproducibility on CPU, you can also set:
 # This ensures deterministic behavior for CPU operations
 torch.use_deterministic_algorithms(True, warn_only=True)
+
+
+
+
+
+
+
+
+
+
