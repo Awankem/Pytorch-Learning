@@ -81,7 +81,15 @@ model_0 = LinearRegressionModel()
 
 
 
+# loss function
+# a loss function measures how wrong the model's predictions are
+# torch.nn.L1Loss
+# torch.nn.MSELoss
 
+# optimizer
+# an optimizer updates the model's parameters to reduce the loss
+# torch.optim.SGD
+# torch.optim.Adam
 
 # Setup loss function and optimizer
 loss_fn = nn.L1Loss() # MAE loss
@@ -115,14 +123,100 @@ print(y_preds)
 # plot_prediction(predictions=y_preds) # Commented out for automated environment
 
 
-# loss function
-# a loss function measures how wrong the model's predictions are
-# torch.nn.L1Loss
-# torch.nn.MSELoss
-
-# optimizer
-# an optimizer updates the model's parameters to reduce the loss
-# torch.optim.SGD
-# torch.optim.Adam
 
 
+
+# Building a training and Testing loop
+# 1 Loop through data
+# 2 Forward pass
+# 3 Calculate loss
+# 4 Optimizer zero grad
+# 5 Loss backward
+# 6 optimizer step
+
+torch.manual_seed(42)
+# 1 loop through the data
+epochs = 100
+
+# track different values
+epoch_count = []
+loss_values = []
+test_loss_values = []
+# 1
+for epoch in range(epochs):
+    # set model to training mode
+    model_0.train()
+
+    # 2
+    y_pred = model_0(X_train)
+
+    # 3
+    loss = loss_fn(y_pred, y_train)
+
+    # 4
+    optimizer.zero_grad()
+
+    # 5
+    loss.backward()
+
+    # 6
+    optimizer.step()
+    # turn off gradient tracking
+    model_0.eval()
+
+    with torch.inference_mode():
+        test_pred = model_0(X_test)
+
+        test_loss = loss_fn(test_pred, y_test)
+    if epoch % 10 == 0:
+        epoch_count.append(epoch)
+        loss_values.append(loss)
+        test_loss_values.append(loss_values)
+        print(f"Epoch: {epoch} | Loss: {loss} | Test loss: {test_loss}")
+
+
+# plot loss curves
+# plt.plot(epoch_count, loss_values, label="Train loss")
+# plt.plot(epoch_count, test_loss_values, label="Train loss")
+# plt.title("Training and test loss curves")
+# plt.ylabel("Loss")
+# plt.xlabel("Epoch")
+# plt.legend();
+
+
+
+print(loss)
+print(model_0.state_dict())
+
+
+# with torch.inference_mode(): #turns of gradient tracking
+#     y_preds_new =model_0(X_test)
+
+# plot_prediction(predictions=y_preds)
+
+
+
+
+
+
+
+
+# Saving our Pytorch Models
+from pathlib import Path
+# created directory
+MODEL_PATH = Path("models")
+MODEL_PATH.mkdir(parents=True, exist_ok=True)
+
+# create model save path
+MODEL_NAME = "01_pytorch_workflow_model_0.pth"
+MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+
+print(MODEL_SAVE_PATH)
+
+print(f"Saving model to: {MODEL_SAVE_PATH}")
+torch.save(obj=model_0.state_dict(), f=MODEL_SAVE_PATH)
+
+
+loaded_model_0 = LinearRegressionModel()
+print(loaded_model_0.load_state_dict(torch.load(f=MODEL_SAVE_PATH)))
+print(loaded_model_0.state_dict())
