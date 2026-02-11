@@ -6,18 +6,17 @@ import os
 app = Flask(__name__)
 
 # Re-define model class (must match the one used during training)
-class LinearRegressionModel(nn.Module):
+class LinearRegressionModelV2(nn.Module):
     def __init__(self):
         super().__init__()
-        self.weights = nn.Parameter(torch.randn(1, requires_grad=True, dtype=torch.float))
-        self.bias = nn.Parameter(torch.randn(1, requires_grad=True, dtype=torch.float))
+        self.linear_layer = nn.Linear(in_features=1, out_features=1)
 
     def forward(self, x:torch.Tensor) -> torch.Tensor:
-        return self.weights * x + self.bias
+        return self.linear_layer(x)
 
 # Load model
-MODEL_PATH = "model.pth"
-model = LinearRegressionModel()
+MODEL_PATH = "models/01_putting_all_together_0.pth"
+model = LinearRegressionModelV2()
 if os.path.exists(MODEL_PATH):
     model.load_state_dict(torch.load(MODEL_PATH))
     model.eval()
@@ -57,8 +56,8 @@ def predict():
 @app.route("/model-info")
 def model_info():
     return jsonify({
-        "weights": model.weights.item(),
-        "bias": model.bias.item()
+        "weights": model.linear_layer.weight.item(),
+        "bias": model.linear_layer.bias.item()
     })
 
 if __name__ == "__main__":
